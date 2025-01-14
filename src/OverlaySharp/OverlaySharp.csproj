@@ -15,6 +15,7 @@
     <PackageTags>OverlaySharp overlay window transparent skiasharp opengl rendering click-through targetwindow .NET .NET8</PackageTags>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Joey0x646576/OverlaySharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Joey0x646576/OverlaySharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Copyright>Copyright (c) Joey0x646576</Copyright>
