@@ -1,0 +1,77 @@
+name: .NET Build, release & test
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-release-test:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore src/OverlaySharp/OverlaySharp.csproj
+
+    - name: Build the project
+      run: dotnet build src/OverlaySharp/OverlaySharp.csproj --configuration Release --no-restore
+
+    - name: Run unit tests
+      run: dotnet test test/OverlaySharpTests/OverlaySharp.Tests.csproj --configuration Release --verbosity normal
+
+    - name: Extract version from .csproj
+      id: get-version
+      shell: pwsh
+      run: |
+        $version = (Select-Xml -Path src/OverlaySharp/OverlaySharp.csproj -XPath '//*[local-name()="Project"]/*[local-name()="PropertyGroup"]/*[local-name()="Version"]').Node.InnerText
+        Write-Host "Version: $version"
+        echo "::set-output name=version::$version"
+
+    - name: Create ZIP Archive of Release Folder
+      run: |
+        Compress-Archive -Path src/OverlaySharp/bin/Release/* -DestinationPath OverlaySharp-v${{ steps.get-version.outputs.version }}.zip
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.get-version.outputs.version }}
+        release_name: v${{ steps.get-version.outputs.version }}
+        body: |
+          Release version v${{ steps.get-version.outputs.version }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Assets - Release Folder
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: OverlaySharp-v${{ steps.get-version.outputs.version }}.zip
+        asset_name: OverlaySharp-v${{ steps.get-version.outputs.version }}.zip
+        asset_content_type: application/zip
+
+    - name: Create Source Archive
+      run: |
+        Compress-Archive -Path src/*,test/* -DestinationPath source-v${{ steps.get-version.outputs.version }}.zip
+
+    - name: Upload Release Assets - Source
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: source-v${{ steps.get-version.outputs.version }}.zip
+        asset_name: source-v${{ steps.get-version.outputs.version }}.zip
+        asset_content_type: application/zip

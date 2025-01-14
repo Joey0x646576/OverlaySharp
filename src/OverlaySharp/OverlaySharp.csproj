@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<IsAotCompatible>true</IsAotCompatible>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <PublishAot>true</PublishAot>
+    <PackageId>OverlaySharp</PackageId>
+    <Authors>Joey0x646576</Authors>
+		<Description>Draws graphics using SkiaSharp(OpenGL) on a transparent window for a target process, with full Native AOT compatibility.</Description>
+		<Version>1.0.0</Version>
+    <PackageTags>OverlaySharp overlay window transparent skiasharp opengl rendering click-through targetwindow .NET .NET8</PackageTags>
+    <PackageReadmeFile>README.MD</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Joey0x646576/OverlaySharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright (c) Joey0x646576</Copyright>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="..\..\assets\*.*" />
+    <None Include="../../README.MD" Pack="true" PackagePath="README.MD" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="OverlaySharp.Tests" />
+  </ItemGroup>
+
+</Project>
