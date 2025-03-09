@@ -11,7 +11,7 @@ namespace OverlaySharp.Runner.Services
         private readonly RunnerConfiguration _runnerOptions = runnerOptions.Value;
         private OverlayRunner _overlay = null!;
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             logger.LogInformation("Launching overlay on {ProcessName}", _runnerOptions.ProcessName);
 
@@ -21,12 +21,12 @@ namespace OverlaySharp.Runner.Services
                 MeasureFps = true
             };
 
-            return Task.CompletedTask;
+            await _overlay.StartOverlayAsync();
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await _overlay.StopOverlay();
+            await _overlay.StopOverlayAsync();
         }
     }
 }

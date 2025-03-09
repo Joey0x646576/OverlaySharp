@@ -17,7 +17,7 @@ namespace OverlaySharp.Runner.Overlay
             GraphicsReady += OnGraphicsReady;
         }
 
-        public override void Renderer(IGraphics graphics)
+        public override void OnRender(IGraphics graphics)
         {
             if (_font != null)
             {

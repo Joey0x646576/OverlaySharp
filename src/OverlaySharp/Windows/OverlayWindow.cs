@@ -30,12 +30,14 @@ namespace OverlaySharp.Windows
 
         private readonly Stopwatch _fpsStopwatch = new();
         private readonly CancellationTokenSource _overlayCancellationTokenSource;
+        private readonly TaskCompletionSource _windowReadyTcs = new();
 
         private ISkiaRenderer? _skiaRenderer;
         private IOpenGlContext _openGlContext = null!;
         private IGraphics _graphicsAdapter = null!;
 
         private Task? _overlayTask;
+        private bool _isWindowReady;
         private int _framesThisSecond;
         private int _currentFrameRate;
         private long _lastTickCount = Environment.TickCount64;
@@ -50,7 +52,21 @@ namespace OverlaySharp.Windows
             SizeChanged += WindowSizeChangedHandler;
         }
 
-        public async Task StopOverlay()
+        public async Task StartOverlayAsync()
+        {
+            if (_overlayTask != null)
+                throw new InvalidOperationException("Overlay already started.");
+
+            await EnsureWindowReadyAsync();
+
+            _overlayTask = Task.Factory.StartNew(
+                RendererTask,
+                _overlayCancellationTokenSource.Token,
+                TaskCreationOptions.LongRunning,
+                TaskScheduler.Default);
+        }
+
+        public async Task StopOverlayAsync()
         {
             await _overlayCancellationTokenSource.CancelAsync();
             if (_overlayTask != null)
@@ -61,18 +77,15 @@ namespace OverlaySharp.Windows
             Dispose();
         }
 
-        public abstract void Renderer(IGraphics graphics);
+        public abstract void OnRender(IGraphics graphics);
 
         private void WindowReadyHandler()
         {
-            _overlayTask = Task.Factory.StartNew(
-                StartOverlayTask,
-                _overlayCancellationTokenSource.Token,
-                TaskCreationOptions.LongRunning,
-                TaskScheduler.Default);
+            _isWindowReady = true;
+            _windowReadyTcs.TrySetResult();
         }
 
-        private void StartOverlayTask()
+        private void RendererTask()
         {
             ResizeWindowToTargetHandle();
 
@@ -103,13 +116,13 @@ namespace OverlaySharp.Windows
                     ResizeWindowToTargetHandle();
                 }
 
-                Render();
+                ProcessFrame();
             }
 
             _openGlContext.DeleteContext();
         }
 
-        private void Render()
+        private void ProcessFrame()
         {
             _skiaRenderer?.Canvas.Clear(SKColors.Transparent);
 
@@ -126,7 +139,7 @@ namespace OverlaySharp.Windows
                 _graphicsAdapter.DrawText(10, 10, $"FPS: {_currentFrameRate}", SKColors.White, _graphicsAdapter.DefaultFont);
             }
 
-            Renderer(_graphicsAdapter);
+            OnRender(_graphicsAdapter);
 
             _skiaRenderer?.Flush();
             _openGlContext.SwapBuffers();
@@ -144,6 +157,14 @@ namespace OverlaySharp.Windows
             }
         }
 
+        private async Task EnsureWindowReadyAsync()
+        {
+            if (_isWindowReady)
+                return;
+
+            await _windowReadyTcs.Task;
+        }
+
         private bool IsInFrequentUpdateRequired()
         {
             var now = Environment.TickCount64;
@@ -154,10 +175,8 @@ namespace OverlaySharp.Windows
             return true;
         }
 
-        private void WindowSizeChangedHandler(object? sender, SizeChangedEventArgs e)
-        {
-            _skiaRenderer?.Resize(e.Width, e.Height);
-        }
+        private void WindowSizeChangedHandler(object? sender, SizeChangedEventArgs e) 
+            => _skiaRenderer?.Resize(e.Width, e.Height);
 
         public override void Dispose()
         {

@@ -8,7 +8,8 @@ if (process == null)
 }
 
 var overlay = new SimpleOverlay(process.MainWindowHandle);
+await overlay.StartOverlayAsync();
 
 // Stops the overlay after 5 seconds...
 Thread.Sleep(5000);
-await overlay.StopOverlay();
+await overlay.StopOverlayAsync();

@@ -24,11 +24,11 @@ Fully compatible to be published as Native AOT(Windows).
 - Windows platform support
 - Basic drawing of various shapes, images and text.
 
-### NuGet
+### [NuGet](https://www.nuget.org/packages/OverlaySharp/)
 #### .NET CLI
     dotnet add package OverlaySharp
 #### Package Reference
-    <PackageReference Include="OverlaySharp" Version="1.0.0" />
+    <PackageReference Include="OverlaySharp" Version="1.0.*" />
 
 # Requirements
 - .NET 8
@@ -39,10 +39,11 @@ Fully compatible to be published as Native AOT(Windows).
 # Examples
 See the [sample project](https://github.com/Joey0x646576/OverlaySharp/tree/main/src/Samples/OverlaySharp.Simple).
 
+Upon starting the overlay, you can draw on the target window by overriding the `OnRender` method.
 ```csharp
 public class YourClass(nint targetWindowHandle) : OverlayWindow(targetWindowHandle)
 {
-    public override void Renderer(IGraphics graphics)
+    public override void OnRender(IGraphics graphics)
     {
       // Perform drawing operations through IGraphics here...
     }
