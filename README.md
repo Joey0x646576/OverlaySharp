@@ -5,7 +5,7 @@
 [![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat&logo=dotnet)](https://dotnet.microsoft.com/download)
 [![Platform](https://img.shields.io/badge/Platform-Windows-blue?style=flat&logo=windows)](https://github.com/Joey0x646576/OverlaySharp)
 [![Language](https://img.shields.io/badge/Language-C%23-239120?style=flat&logo=csharp)](https://github.com/Joey0x646576/OverlaySharp)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/Joey0x646576/OverlaySharp/build.yml?style=flat&logo=github)](https://github.com/Joey0x646576/OverlaySharp/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Joey0x646576/OverlaySharp/dotnet-desktop.yml?style=flat&logo=github)](https://github.com/Joey0x646576/OverlaySharp/actions)
 [![NuGet](https://img.shields.io/nuget/v/OverlaySharp?style=flat&logo=nuget)](https://www.nuget.org/packages/OverlaySharp/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/OverlaySharp?style=flat&logo=nuget)](https://www.nuget.org/packages/OverlaySharp/)
 [![Last Commit](https://img.shields.io/github/last-commit/Joey0x646576/OverlaySharp?style=flat&logo=github)](https://github.com/Joey0x646576/OverlaySharp/commits)

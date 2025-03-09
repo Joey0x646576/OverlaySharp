@@ -37,6 +37,19 @@ namespace OverlaySharp.Graphics.Adapters
         public void DrawTextShadowed(float x, float y, string text, SKColor color, SKColor shadowColor, SKFont font, float shadowOffsetX = 2, float shadowOffsetY = 2);
 
         /// <summary>
+        /// Draws text with an outline at a specified position.
+        /// </summary>
+        /// <param name="x">The x-coordinate of the text's position.</param>
+        /// <param name="y">The y-coordinate of the text's position.</param>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="color">The color of the text.</param>
+        /// <param name="outlineColor">The color of the outline.</param>
+        /// <param name="font">The font to use for rendering the text.</param>
+        /// <param name="strokeWidth">The width of the outline. Defaults to 2.</param>
+
+        public void DrawTextOutline(float x, float y, string text, SKColor color, SKColor outlineColor, SKFont font, float strokeWidth = 2);
+
+        /// <summary>
         /// Draws a straight line between two points.
         /// </summary>
         /// <param name="x">The x-coordinate of the start point.</param>

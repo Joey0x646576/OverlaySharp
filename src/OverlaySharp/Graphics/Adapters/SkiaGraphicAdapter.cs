@@ -25,6 +25,16 @@ namespace OverlaySharp.Graphics.Adapters
             skiaRenderer.Canvas.DrawText(text, x, y + font.Size, SKTextAlign.Left, font, _textPaint);
         }
 
+        public void DrawTextOutline(float x, float y, string text, SKColor color, SKColor outlineColor, SKFont font, float strokeWidth = 2)
+        {
+            _textPaint.Color = color;
+            _outlineTextPaint.Color = outlineColor;
+            _outlinePaint.StrokeWidth = strokeWidth;
+
+            skiaRenderer.Canvas.DrawText(text, x, y + font.Size, SKTextAlign.Left, font, _outlineTextPaint);
+            skiaRenderer.Canvas.DrawText(text, x, y + font.Size, SKTextAlign.Left, font, _textPaint);
+        }
+
         public void DrawLine(float x, float y, float endX, float endY, SKColor color, float strokeWidth)
         {
             _linePaint.Color = color;
@@ -187,6 +197,13 @@ namespace OverlaySharp.Graphics.Adapters
             Style = SKPaintStyle.Fill,
             IsAntialias = antiAliasing,
             MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 1)
+        };
+
+        private readonly SKPaint _outlineTextPaint = new()
+        {
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 2f,
+            IsAntialias = antiAliasing
         };
     }
 }
