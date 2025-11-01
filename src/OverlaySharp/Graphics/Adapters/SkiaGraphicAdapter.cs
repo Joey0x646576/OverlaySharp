@@ -29,7 +29,7 @@ namespace OverlaySharp.Graphics.Adapters
         {
             _textPaint.Color = color;
             _outlineTextPaint.Color = outlineColor;
-            _outlinePaint.StrokeWidth = strokeWidth;
+            _outlineTextPaint.StrokeWidth = strokeWidth;
 
             skiaRenderer.Canvas.DrawText(text, x, y + font.Size, SKTextAlign.Left, font, _outlineTextPaint);
             skiaRenderer.Canvas.DrawText(text, x, y + font.Size, SKTextAlign.Left, font, _textPaint);
@@ -107,9 +107,25 @@ namespace OverlaySharp.Graphics.Adapters
         public void DrawCircle(float x, float y, float radius, SKColor fillColor, SKColor strokeColor, float strokeWidth)
         {
             _fillCirclePaint.Color = fillColor;
-            DrawCircle(x, y, radius, strokeColor, strokeWidth);
-
             skiaRenderer.Canvas.DrawCircle(x, y, radius, _fillCirclePaint);
+
+            DrawCircle(x, y, radius, strokeColor, strokeWidth);
+        }
+
+        public void DrawEllipse(float x, float y, float radiusX, float radiusY, SKColor color, float strokeWidth)
+        {
+            _outlineEllipsePaint.Color = color;
+            _outlineEllipsePaint.StrokeWidth = strokeWidth;
+
+            skiaRenderer.Canvas.DrawOval(x, y, radiusX, radiusY, _outlineEllipsePaint);
+        }
+
+        public void DrawEllipse(float x, float y, float radiusX, float radiusY, SKColor fillColor, SKColor strokeColor, float strokeWidth)
+        {
+            _fillEllipsePaint.Color = fillColor;
+            skiaRenderer.Canvas.DrawOval(x, y, radiusX, radiusY, _fillEllipsePaint);
+
+            DrawEllipse(x, y, radiusX, radiusY, strokeColor, strokeWidth);
         }
 
         public void DrawPath(SKPath path, SKColor color, float strokeWidth)
@@ -148,6 +164,28 @@ namespace OverlaySharp.Graphics.Adapters
             };
 
             return font;
+        }
+
+        public SKRect MeasureText(string text, SKFont font)
+        {
+            font.MeasureText(text, out var bounds);
+
+            var metrics = font.Metrics;
+            bounds.Top = metrics.Ascent;
+            bounds.Bottom = metrics.Descent;
+
+            return bounds;
+        }
+
+        public float MeasureTextWidth(string text, SKFont font)
+        {
+            return font.MeasureText(text);
+        }
+
+        public float MeasureTextHeight(SKFont font)
+        {
+            var metrics = font.Metrics;
+            return metrics.Descent - metrics.Ascent;
         }
 
         private readonly SKPaint _fillPaint = new()
@@ -203,6 +241,18 @@ namespace OverlaySharp.Graphics.Adapters
         {
             Style = SKPaintStyle.Stroke,
             StrokeWidth = 2f,
+            IsAntialias = antiAliasing
+        };
+
+        private readonly SKPaint _outlineEllipsePaint = new()
+        {
+            Style = SKPaintStyle.Stroke,
+            IsAntialias = antiAliasing
+        };
+
+        private readonly SKPaint _fillEllipsePaint = new()
+        {
+            Style = SKPaintStyle.Fill,
             IsAntialias = antiAliasing
         };
     }

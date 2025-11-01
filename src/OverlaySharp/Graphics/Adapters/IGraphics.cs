@@ -123,6 +123,29 @@ namespace OverlaySharp.Graphics.Adapters
         public void DrawPath(SKPath path, SKColor color, float strokeWidth);
 
         /// <summary>
+        /// Draws the outline of an ellipse.
+        /// </summary>
+        /// <param name="x">The x-coordinate of the ellipse's center.</param>
+        /// <param name="y">The y-coordinate of the ellipse's center.</param>
+        /// <param name="radiusX">The horizontal radius of the ellipse.</param>
+        /// <param name="radiusY">The vertical radius of the ellipse.</param>
+        /// <param name="color">The color of the ellipse's outline.</param>
+        /// <param name="strokeWidth">The width of the outline.</param>
+        public void DrawEllipse(float x, float y, float radiusX, float radiusY, SKColor color, float strokeWidth);
+
+        /// <summary>
+        /// Draws the outline of an ellipse and fills it with a color.
+        /// </summary>
+        /// <param name="x">The x-coordinate of the ellipse's center.</param>
+        /// <param name="y">The y-coordinate of the ellipse's center.</param>
+        /// <param name="radiusX">The horizontal radius of the ellipse.</param>
+        /// <param name="radiusY">The vertical radius of the ellipse.</param>
+        /// <param name="fillColor">The color used to fill the ellipse.</param>
+        /// <param name="strokeColor">The color used for the ellipse's outline.</param>
+        /// <param name="strokeWidth">The width of the ellipse's outline.</param>
+        public void DrawEllipse(float x, float y, float radiusX, float radiusY, SKColor fillColor, SKColor strokeColor, float strokeWidth);
+
+        /// <summary>
         /// Draws a progress bar within a specified rectangle.
         /// </summary>
         /// <param name="rectangle">The rectangle defining the progress bar area.</param>
@@ -152,5 +175,28 @@ namespace OverlaySharp.Graphics.Adapters
         /// <param name="subpixel">Indicates whether to enable subpixel positioning. Defaults to true.</param>
         /// <returns>A new <see cref="SKFont"/> instance, or null if creation fails.</returns>
         public SKFont? CreateFont(SKTypeface typeface, SKFontEdging edging = SKFontEdging.SubpixelAntialias, float textSize = 12, float scaleX = 1, float skewX = 0, bool subpixel = true);
+
+        /// <summary>
+        /// Measures the bounds of the specified text when rendered with the given font.
+        /// </summary>
+        /// <param name="text">The text to measure.</param>
+        /// <param name="font">The font to use for measurement.</param>
+        /// <returns>A rectangle representing the bounds of the text.</returns>
+        public SKRect MeasureText(string text, SKFont font);
+
+        /// <summary>
+        /// Measures the width of the specified text when rendered with the given font.
+        /// </summary>
+        /// <param name="text">The text to measure.</param>
+        /// <param name="font">The font to use for measurement.</param>
+        /// <returns>The width of the text in pixels.</returns>
+        public float MeasureTextWidth(string text, SKFont font);
+
+        /// <summary>
+        /// Measures the height of text rendered with the given font.
+        /// </summary>
+        /// <param name="font">The font to use for measurement.</param>
+        /// <returns>The height of the text in pixels.</returns>
+        public float MeasureTextHeight(SKFont font);
     }
 }

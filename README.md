@@ -10,7 +10,7 @@
 [![NuGet Downloads](https://img.shields.io/nuget/dt/OverlaySharp?style=flat&logo=nuget)](https://www.nuget.org/packages/OverlaySharp/)
 [![Last Commit](https://img.shields.io/github/last-commit/Joey0x646576/OverlaySharp?style=flat&logo=github)](https://github.com/Joey0x646576/OverlaySharp/commits)
 
-![image](https://i.imgur.com/qw8dZL2.png)
+![image](https://i.imgur.com/9r6nu9v.gif)
 A high-performance .NET library for creating transparent window overlays on a target process using OpenGL and SkiaSharp.
 
 Fully compatible to be published as Native AOT(Windows).

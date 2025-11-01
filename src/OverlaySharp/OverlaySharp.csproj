@@ -11,7 +11,7 @@
     <PackageId>OverlaySharp</PackageId>
     <Authors>Joey0x646576</Authors>
 		<Description>Draws graphics using SkiaSharp(OpenGL) on a transparent window for a target process, with full Native AOT compatibility.</Description>
-		<Version>1.0.2</Version>
+		<Version>1.0.3</Version>
     <PackageTags>OverlaySharp overlay window transparent skiasharp opengl rendering click-through targetwindow .NET .NET8</PackageTags>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
